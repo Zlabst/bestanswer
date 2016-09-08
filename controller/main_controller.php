@@ -21,6 +21,9 @@ class main_controller
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\log\log */
 	protected $log;
 
@@ -41,6 +44,7 @@ class main_controller
 	*
 	* @param \phpbb\auth\auth						$auth			Auth object
 	* @param \phpbb\db\driver\driver_interface		$db				Database object
+	* @param \phpbb\language\language				$language		Language object
 	* @param \phpbb\log\log							$log			Log object
 	* @param \phpbb\request\request					$request		Request object
 	* @param \phpbb\user							$user			User object
@@ -48,10 +52,11 @@ class main_controller
 	* @param string									$php_ext
 	* @access public
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\user $user, $root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $language, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\user $user, $root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
+		$this->language = $language;
 		$this->log = $log;
 		$this->request = $request;
 		$this->user = $user;
@@ -85,19 +90,19 @@ class main_controller
 		// Validate all checks and throw errors
 		if (!$topic_data['enable_bestanswer'])
 		{
-			throw new \phpbb\exception\http_exception(404, $this->user->lang('EXTENSION_NOT_ENABLED'));
+			throw new \phpbb\exception\http_exception(404, $this->language->lang('EXTENSION_NOT_ENABLED'));
 		}
 		if ($topic_data['topic_first_post_id'] == (int) $post_id)
 		{
-			throw new \phpbb\exception\http_exception(404, $this->user->lang('TOPIC_FIRST_POST'));
+			throw new \phpbb\exception\http_exception(404, $this->language->lang('TOPIC_FIRST_POST'));
 		}
 		if (!$this->auth->acl_get('m_mark_bestanswer', (int) $topic_data['forum_id']) && (!$this->auth->acl_get('f_mark_bestanswer', (int) $topic_data['forum_id']) && $topic_data['topic_poster'] != $this->user->data['user_id']))
 		{
-			throw new \phpbb\exception\http_exception(403, $this->user->lang('NOT_AUTHORISED'));
+			throw new \phpbb\exception\http_exception(403, $this->language->lang('NOT_AUTHORISED'));
 		}
 		if ($topic_data['topic_status'] == ITEM_LOCKED && !$this->auth->acl_get('m_mark_bestanswer', (int) $topic_data['forum_id']))
 		{
-			throw new \phpbb\exception\http_exception(403, $this->user->lang('NOT_AUTHORISED'));
+			throw new \phpbb\exception\http_exception(403, $this->language->lang('NOT_AUTHORISED'));
 		}
 
 		$log_var = $this->auth->acl_get('m_mark_bestanswer', $topic_data['forum_id']) ? 'mod' : 'user';
@@ -174,7 +179,7 @@ class main_controller
 				}
 				else
 				{
-					confirm_box(false, $this->user->lang(strtoupper($action) . '_CONFIRM'));
+					confirm_box(false, $this->language->lang(strtoupper($action) . '_CONFIRM'));
 				}
 			break;
 		}

@@ -20,8 +20,8 @@ namespace kinerity\bestanswer;
 */
 class ext extends \phpbb\extension\base
 {
-	/** @var string Require phpBB 3.1.7 due to the use of new events */
-	const PHPBB_MIN_VERSION = '3.1.7';
+	/** @var string Require phpBB 3.2.0 due to structure changes */
+	const PHPBB_MIN_VERSION = '3.2.0';
 
 	/**
 	* Check whether or not the extension can be enabled.

@@ -1,7 +1,7 @@
 {
 	"name": "kinerity/bestanswer",
 	"type": "phpbb-extension",
-	"description": "An extension for phpBB 3.1.x that allows users to mark a post as the 'Best Answer', which will then be quoted in the first post with a link to it.",
+	"description": "An extension for phpBB 3.2.x that allows users to mark a post as the 'Best Answer', which will then be quoted in the first post with a link to it.",
 	"homepage": "http://www.acsyste.com",
 	"version": "1.0.0",
 	"license": "GPL-2.0",
@@ -19,7 +19,7 @@
 	"extra": {
 		"display-name": "Best Answer",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.7"
+			"phpbb/phpbb": ">=3.2.0"
 		}
 	}
 }

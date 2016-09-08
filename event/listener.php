@@ -26,6 +26,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\request\request */
 	protected $request;
 
@@ -50,6 +53,7 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\auth\auth						$auth			Auth object
 	* @param \phpbb\db\driver\driver_interface		$db				Database object
 	* @param \phpbb\controller\helper				$helper			Controller Helper object
+	* @param \phpbb\language\language				$language		Language object
 	* @param \phpbb\request\request					$request		Request object
 	* @param \phpbb\template\template				$template		Template object
 	* @param \phpbb\user							$user			User object
@@ -57,11 +61,12 @@ class listener implements EventSubscriberInterface
 	* @param string									$php_ext
 	* @access public
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
 		$this->helper = $helper;
+		$this->language = $language;
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
@@ -382,7 +387,7 @@ class listener implements EventSubscriberInterface
 		// must also allow empty values so core searches are not affected
 		else if ($filter != '')
 		{
-			trigger_error($this->user->lang('INVALID_FILTER'));
+			trigger_error($$this->language->lang('INVALID_FILTER'));
 		}
 
 		$event['sql_select'] = $sql_select;
